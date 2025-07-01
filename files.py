@@ -64,9 +64,6 @@ def extract_pdf_text(chosen_files: list[Pdf]) -> None:
         lines = extract_text(file.path, laparams=laparams).split("\n")
         for line in lines:
             file.text.append(line)
-
-
-
     
 
 if __name__ == "__main__":
