@@ -2,14 +2,15 @@
 import sys
 from pathlib import Path
 
-def get_files_from_dir() -> list[tuple[str, str]]:
+def get_files_from_dir() -> list[tuple[str, str, str]]:
     """
     Gets all pdf files from the given directory and returning the name with and without the extension.
 
     Returns:
         files: A list of tuples where each tuple contains the name with and without the extension.
-            tuple[0] = name with extension
-            tuple[1] = name without extension
+            tuple[0] = path to file
+            tuple[1] = name with extension
+            tuple[2] = name without extension
     """
 
     while True:
@@ -26,7 +27,7 @@ def get_files_from_dir() -> list[tuple[str, str]]:
         else:
             break
 
-    files = [(file.name, file.stem)
+    files = [(str(file), file.name, file.stem)
              for file in directory.iterdir()
              if file.is_file() and file.suffix.lower() == ".pdf"]
     
@@ -35,3 +36,9 @@ def get_files_from_dir() -> list[tuple[str, str]]:
 
     return files
     
+
+if __name__ == "__main__":
+    a, b, c = zip(*get_files_from_dir())
+    print(a)
+    print(b)
+    print(c)
