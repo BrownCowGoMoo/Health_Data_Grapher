@@ -1,6 +1,13 @@
 
 import sys
 from pathlib import Path
+from dataclasses import dataclass
+
+@dataclass
+class Pdf:
+    path: str
+    name_w_ext: str
+    name: str
 
 def get_files_from_dir() -> list[tuple[str, str, str]]:
     """
@@ -27,7 +34,7 @@ def get_files_from_dir() -> list[tuple[str, str, str]]:
         else:
             break
 
-    files = [(str(file), file.name, file.stem)
+    files = [Pdf(str(file), file.name, file.stem)
              for file in directory.iterdir()
              if file.is_file() and file.suffix.lower() == ".pdf"]
     
@@ -38,7 +45,4 @@ def get_files_from_dir() -> list[tuple[str, str, str]]:
     
 
 if __name__ == "__main__":
-    a, b, c = zip(*get_files_from_dir())
-    print(a)
-    print(b)
-    print(c)
+    print(get_files_from_dir())
