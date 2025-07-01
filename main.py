@@ -1,10 +1,10 @@
-from files import get_files_from_dir
+from files import get_files_from_dir, Pdf
+from typing import List
 
 def main():
-    file_name_wEXT, file_name = zip(*get_files_from_dir())
-    print(file_name_wEXT)
-    print(file_name)
-
+    files: List[Pdf] = get_files_from_dir()
+    for file in files:
+        print(file.name)
 
 if __name__ == "__main__":
     main()
