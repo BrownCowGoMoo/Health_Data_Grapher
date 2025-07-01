@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import datetime
 
 @dataclass
 class Pdf:
@@ -46,4 +47,5 @@ class ResultInfoSeries:
         report_results: list[ResultInfo] = list of all result info objects associated with the report
     """
     report_name: str
+    report_date: datetime
     report_results: list[ResultInfo] = field(default_factory=list)
