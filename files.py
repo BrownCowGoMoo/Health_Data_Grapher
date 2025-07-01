@@ -1,24 +1,10 @@
 from pathlib import Path
 import sys
-from dataclasses import dataclass, field
+
 from pdfminer.high_level import extract_text
 from pdfminer.layout import LAParams
 
-@dataclass
-class Pdf:
-    """
-    Dataclass to hold pdf file information.
-
-    Attributes:
-        path: str = path to the file
-        name_w_ext: str = file name with extension
-        name: str = file name without extension
-        text: list[str] = A list containg each line of text in the file
-    """
-    path: str 
-    name_w_ext: str
-    name: str
-    text: list[str] = field(default_factory=list)
+from models import Pdf
 
 def get_directory_path(default_directory="C:\Coding Projects\Python\health data") -> str:
     """
