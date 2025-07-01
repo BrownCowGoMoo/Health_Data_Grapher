@@ -55,6 +55,7 @@ def get_files_to_include(files: list[Pdf]) -> list[Pdf]:
                 break
             else:
                 print("Invalid answer, please input 'y' or 'n'")
+                
     return chosen_files
 
 def extract_pdf_text(chosen_files: list[Pdf]) -> None:
@@ -65,7 +66,6 @@ def extract_pdf_text(chosen_files: list[Pdf]) -> None:
         for line in lines:
             file.text.append(line)
     
-
 if __name__ == "__main__":
     chosen_files = get_files_to_include(scan_files())
     extract_pdf_text(chosen_files)
