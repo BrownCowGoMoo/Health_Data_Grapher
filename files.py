@@ -1,28 +1,35 @@
 
 import sys
 from pathlib import Path
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from pdfminer.high_level import extract_text
+from pdfminer.layout import LAParams
 
 @dataclass
 class Pdf:
     path: str
     name_w_ext: str
     name: str
+    text: list[str] = field(default_factory=list)
 
-def get_directory_path() -> str:
-    while True:
+def get_directory_path(default_directory="C:\Coding Projects\Python\health data") -> str:
+    if not default_directory:
+        while True:
 
-        directory = input("Input the directory path to your files: ")
+            directory = input("Input the directory path to your files: ")
+            directory = Path(directory).expanduser()
+
+            if not directory.exists():
+                print(f"{directory} Path does not exist.")
+
+            elif not directory.is_dir():
+                print(f"{directory} Is not a directory.")
+
+            else:
+                break
+    else:
+        directory = default_directory
         directory = Path(directory).expanduser()
-
-        if not directory.exists():
-            print(f"{directory} Path does not exist.")
-
-        elif not directory.is_dir():
-            print(f"{directory} Is not a directory.")
-
-        else:
-            break
 
     return directory
 
@@ -42,15 +49,30 @@ def get_files_to_include(files: list[Pdf]) -> list[Pdf]:
     for file in files:
         while True:
             ans = input(f"Would you like to incude {file.name_w_ext}? (y/n): ")
-            if ans.lower() in ("yes", "y"):
+            if ans.lower().strip() in ("yes", "y"):
                 chosen_files.append(file)
-            elif ans.lower in ("no", "n"):
-                continue
+                break
+            elif ans.lower().strip() in ("no", "n"):
+                break
             else:
                 print("Invalid answer, please input 'y' or 'n'")
     return chosen_files
 
+def extract_pdf_text(chosen_files: list[Pdf]) -> None:
+    laparams = LAParams(line_overlap=0.5, char_margin=100.0, line_margin=0.5, word_margin=0.1)
+
+    for file in chosen_files:
+        lines = extract_text(file.path, laparams=laparams).split("\n")
+        for line in lines:
+            file.text.append(line)
+
+
+
     
 
 if __name__ == "__main__":
-    print(scan_files())
+    chosen_files = get_files_to_include(scan_files())
+    extract_pdf_text(chosen_files)
+    for file in chosen_files:
+        print(f"{file.name}___ %%%%%%%%%%%%%___{file.text}")
+
