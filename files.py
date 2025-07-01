@@ -37,13 +37,18 @@ def scan_files() -> list[Pdf]:
 
     return files
 
-def get_files_to_include(files: list[Pdf]) -> list[str]:
+def get_files_to_include(files: list[Pdf]) -> list[Pdf]:
     chosen_files = []
     for file in files:
         while True:
             ans = input(f"Would you like to incude {file.name_w_ext}? (y/n): ")
-            
-
+            if ans.lower() in ("yes", "y"):
+                chosen_files.append(file)
+            elif ans.lower in ("no", "n"):
+                continue
+            else:
+                print("Invalid answer, please input 'y' or 'n'")
+    return chosen_files
 
     
 
