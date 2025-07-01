@@ -2,7 +2,7 @@
 import sys
 from pathlib import Path
 
-def get_files_from_dir() -> list[tuple[str]]:
+def get_files_from_dir() -> list[tuple[str, str]]:
 
     while True:
 
