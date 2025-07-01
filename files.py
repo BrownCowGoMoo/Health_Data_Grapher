@@ -1,6 +1,5 @@
-
-import sys
 from pathlib import Path
+import sys
 from dataclasses import dataclass, field
 from pdfminer.high_level import extract_text
 from pdfminer.layout import LAParams
