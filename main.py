@@ -1,8 +1,8 @@
-from files import get_files_from_dir, Pdf
+from files import scan_files, Pdf
 from typing import List
 
 def main():
-    files: List[Pdf] = get_files_from_dir()
+    files: List[Pdf] = scan_files()
     for file in files:
         print(file.name)
 
