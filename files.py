@@ -10,9 +10,9 @@ class Pdf:
     Dataclass to hold pdf file information.
 
     Attributes:
-        path: [str] = path to the file
-        name_w_ext: [str] = file name with extension
-        name: [str] = file name without extension
+        path: str = path to the file
+        name_w_ext: str = file name with extension
+        name: str = file name without extension
         text: list[str] = A list containg each line of text in the file
     """
     path: str 
