@@ -43,7 +43,6 @@ def parse_results(line: str) -> ResultInfo | None:
     results = match.groups()
 
     striped_results = tuple(item.strip() if isinstance(item, str) else item for item in results)
-    print(striped_results)
 
     name, flag, value, lower_range, upper_range, units = striped_results
     try:
