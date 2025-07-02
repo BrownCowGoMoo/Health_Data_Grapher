@@ -47,7 +47,7 @@ def parse_results(line: str) -> ResultInfo | None:
         upper_range = float(upper_range)
     except ValueError:
         print("value error")
-    info = ResultInfo(name, flag, value, lower_range, upper_range, units)
+    info = ResultInfo(name.strip(), flag.strip(), value.strip(), lower_range.strip(), upper_range.strip(), units.strip())
 
     return info 
 
