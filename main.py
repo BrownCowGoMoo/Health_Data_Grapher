@@ -3,19 +3,21 @@ from typing import TYPE_CHECKING
 from db import DBManager
 from files import scan_files,get_files_to_include, extract_pdf_text
 from parser import parse_reports
+from plot import get_common_results
 
 if TYPE_CHECKING:
-    from models import Pdf
+    from models import Pdf, ResultInfoSeries
 
 
 def main():
     files: list[Pdf] = scan_files()
     chosen_files: list[Pdf] = get_files_to_include(files)
     extract_pdf_text(chosen_files)
-    all_records = parse_reports(chosen_files)
+    all_records: list[ResultInfoSeries] = parse_reports(chosen_files)
     db = DBManager()
     db.create_tables()
     db.insert_info(all_records)
+    get_common_results(all_records)
 
 
 if __name__ == "__main__":
