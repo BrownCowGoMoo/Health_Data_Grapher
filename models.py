@@ -7,10 +7,10 @@ class Pdf:
     Dataclass to hold pdf file information.
 
     Attributes:
-        path: str = path to the file
-        name_w_ext: str = file name with extension
-        name: str = file name without extension
-        text: list[str] = A list containg each line of text in the file
+        path: Path to the file
+        name_w_ext: File name with extension
+        name: File name without extension
+        text: A list containg each line of text in the file
     """
     path: str 
     name_w_ext: str
@@ -23,12 +23,12 @@ class ResultInfo:
     Dataclass to hold parsed result values
 
     Attrubutes:
-        name: str = Name of the result
-        flag: str = flag from the result 'HI' or 'LO'
-        value: float = result value
-        lower_range: float = lower healthy range for value
-        upper_range: float = upper healthy range for value
-        units: str = value units
+        name: Name of the result
+        flag: Flag from the result ('HI' or 'LO')
+        value: Result value
+        lower_range: Lower healthy range for value
+        upper_range: Upper healthy range for value
+        units: value Units
     """
     name: str
     flag: str
@@ -43,8 +43,9 @@ class ResultInfoSeries:
     Dataclass to hold the report name and the list of all values parsed
 
     Attributes:
-        report_name: str = name of the report
-        report_results: list[ResultInfo] = list of all result info objects associated with the report
+        report_name: Name of the report
+        report_date: Date of the report (defaults to None)
+        report_results: List of all result info objects associated with the report
     """
     report_name: str
     report_date: Optional[datetime] = None
