@@ -60,5 +60,27 @@ class DBManager:
                 ))
         with self.session() as cursor:
             cursor.executemany(query, params)
-                
+
+    def select_shared_names(self) -> list[str]:
+        """
+        Select all names from Reports that are shared by each unique file_name.
+
+        Returns:
+            shared_names: A list of the shared names.
+        """
+
+        query = """
+        SELECT name FROM Reports
+        GROUP BY name
+        HAVING COUNT(DISTINCT file_name) = (
+            SELECT COUNT(DISTINCT file_name)
+            FROM Reports
+        )
+        """            
+
+        with self.session() as cursor:
+            cursor.execute(query)
+            shared_names = [row[0] for row in cursor.fetchall()]
+
+        return shared_names
     
