@@ -12,8 +12,6 @@ def get_common_results(all_records: list[ResultInfoSeries]):
     common_names = [{info.name for info in records.report_results} for records in all_records]
     print(common_names)
 
-    for item in all_records:
-        for info in item.report_results:
-            print(info.name)
+    
 
     
