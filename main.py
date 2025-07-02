@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 from db import DBManager
 from files import scan_files,get_files_to_include, extract_pdf_text
 from parser import parse_reports
-from plot import get_common_results
 
 if TYPE_CHECKING:
     from models import Pdf, ResultInfoSeries
@@ -17,7 +16,7 @@ def main():
     db = DBManager()
     db.create_tables()
     db.insert_info(all_records)
-    get_common_results(all_records)
+    db.select_shared_names()
 
 
 if __name__ == "__main__":
