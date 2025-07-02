@@ -40,14 +40,19 @@ def parse_results(line: str) -> ResultInfo | None:
     if not match:
         return None
     
-    name, flag, value, lower_range, upper_range, units = match.groups()
+    results = match.groups()
+
+    striped_results = tuple(item.strip() if isinstance(item, str) else item for item in results)
+    print(striped_results)
+
+    name, flag, value, lower_range, upper_range, units = striped_results
     try:
         value = float(value)
         lower_range = float(lower_range)
         upper_range = float(upper_range)
     except ValueError:
         print("value error")
-    info = ResultInfo(name.strip(), flag.strip(), value.strip(), lower_range.strip(), upper_range.strip(), units.strip())
+    info = ResultInfo(name, flag, value, lower_range, upper_range, units)
 
     return info 
 
