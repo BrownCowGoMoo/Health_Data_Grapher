@@ -41,10 +41,10 @@ class DBManager:
                             units TEXT DEFAULT 'NULL',
                             date TEXT DEFAULT 'NULL')""")
             
-    def insert_info(self, all_records: list[ResultInfoSeries]):
+    def insert_info(self, all_chosen_records: list[ResultInfoSeries]):
         query = "INSERT INTO Reports (file_name, name, flag, value, lower_range, upper_range, units, date) VALUES (?,?,?,?,?,?,?,?)"
         params = []
-        for record in all_records:
+        for record in all_chosen_records:
             file_name = record.report_name
             date = record.report_date
             for results in record.report_results:
