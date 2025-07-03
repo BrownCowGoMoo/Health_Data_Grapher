@@ -25,7 +25,8 @@ def main():
         sys.exit()
 
     item_to_plot = PlotItemsSelector.get_item_to_plot(shared_names)
-    
+
+    db.select_values_for_name(item_to_plot)
 
 
 
