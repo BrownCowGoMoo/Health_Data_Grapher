@@ -50,3 +50,21 @@ class ResultInfoSeries:
     report_name: str
     report_date: Optional[datetime] = None
     report_results: list[ResultInfo] = field(default_factory=list)
+
+@dataclass
+class PlotConfig:
+    # Visual stye
+    marker_stye: str = "o"
+    line_stype: str = "-"
+
+    # Normal range Visuals
+    normal_range_color: str = "green"
+    normal_range_alpha: float = 0.2
+
+    # Axis config
+    y_axis_padding: int = 10
+
+    # Annotations
+    value_label: bool = True
+    value_label_offset: tuple[int, int] = (0,10)
+    
