@@ -52,10 +52,38 @@ class ResultInfoSeries:
     report_results: list[ResultInfo] = field(default_factory=list)
 
 @dataclass
+class PlotValues(ResultInfo):
+    """
+    Dataclass to hold values of results to plot
+
+    Attributes:
+        name: Name of the result
+        flag: Flag from the result ('HI' or 'LO')
+        value: Result value
+        lower_range: Lower healthy range for value
+        upper_range: Upper healthy range for value
+        units: value Units
+        file_name: Name of the file the result was taken from
+        date: a date as a string (format: YYYY-MM-DD HH-MM-SS)
+    """
+    file_name: str
+    date: str
+
+@dataclass
 class PlotConfig:
+    """
+    Attributes:
+        marker_style: Style of matplotlib markers (default = 'o')
+        line_style: Style of lines in matplotlib (default = '-')
+        normal_range_color: Color to display the normal range for a result (default = 'green')
+        normal_range_alpha: Amount of transperency for normal_range (default 0.2)
+        y_axis_padding: Amount of y-axis padding from highest and lowest value (default = 0)
+        value_label: boolean value, dermines use of value labels (default = True)
+        value_label_offset: Offset for the value label (default = (0, 10))
+    """
     # Visual stye
     marker_stye: str = "o"
-    line_stype: str = "-"
+    line_style: str = "-"
 
     # Normal range Visuals
     normal_range_color: str = "green"
