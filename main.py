@@ -4,7 +4,7 @@ import sys
 from db import DBManager
 from files import scan_files,get_files_to_include, extract_pdf_text
 from parser import parse_reports
-from plot import PlotItemsSelector, plot
+from plot import PlotItemsSelector, plot_graph
 
 if TYPE_CHECKING:
     from models import Pdf, ResultInfoSeries
@@ -27,7 +27,7 @@ def main():
     item_to_plot = PlotItemsSelector.get_item_to_plot(shared_names)
 
     plot_values = db.select_values_for_name(item_to_plot)
-    plot(plot_values)
+    plot_graph(plot_values)
 
 if __name__ == "__main__":
     main()
