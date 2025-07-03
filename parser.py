@@ -29,10 +29,10 @@ def parse_results(line: str) -> ResultInfo | None:
     Parses the given line for name, flag, value, lower_range, upper_range, and units.
 
     Args:
-        line: str = line from a pdf file
+        line: Line from a pdf file
     
     Returns:
-        info: ResultInfo = ResultInfo object
+        info: ResultInfo object containing all values retrieved from parsing.
     """
     resultRE = re.compile(r"(?P<name>[\w\s]+?)(?P<flag>HI|LO)?\s(?P<value>\d+\.?\d*)\s(?P<lower_range>\d+\.?\d*)\s*-\s*(?P<upper_range>\d+\.?\d*)\s(?P<units>.+)")
 
