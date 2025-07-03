@@ -84,9 +84,18 @@ class DBManager:
 
         return shared_names
     
-    def select_values_for_name(self, name: str):
+    def select_values_for_name(self, name: str) -> tuple[str, float, float, float, str, str, str]:
+        """
+        Selects column information from the table at the given name.
+
+        Args:
+            name: name of a name in the database.
+
+        Returns:
+            values: Selected values from data base at 'name'.
+        """
         query = """
-        SELECT name, value, lower_range, upper_range, units, file_name, date 
+        SELECT name, flag, value, lower_range, upper_range, units, file_name, date 
         FROM Reports
         WHERE name=?
         ORDER BY date
@@ -94,4 +103,5 @@ class DBManager:
 
         with self.session() as cursor:
             cursor.execute(query, (name,))
-            print(cursor.fetchall())
+            values = cursor.fetchall()
+        return values
