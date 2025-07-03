@@ -11,10 +11,10 @@ def get_directory_path(default_directory="C:\Coding Projects\Python\health data"
     Gets the path to the directory containing the pdf files from user if there is not default path.
 
     Args:
-        default_direcrtory: str = A default path to a directory.
+        default_direcrtory: A default path to a directory.
 
     Returns:
-        directory: [str] = String representing a directory path containing the pdf files.
+        directory: String representing a directory path containing the pdf files.
     """
     if not default_directory:
         while True:
@@ -42,7 +42,7 @@ def scan_files() -> list[Pdf]:
     Exits if there are no pdf files in the directory.
 
     Returns:
-        files: list[Pdf] = A list of pdf objects representing the pdf files in the directory.
+        files: A list of pdf objects representing the pdf files in the directory.
     """
 
     files = [Pdf(str(file), file.name, file.stem)
@@ -59,10 +59,10 @@ def get_files_to_include(files: list[Pdf]) -> list[Pdf]:
     Prompts the user to as which files they want included.
 
     Args:
-        files: list[Pdf] = List of Pdf objects
+        files: List of Pdf objects
 
     Retuns:
-        chosen_files: list[Pdf] = List of chosen Pdf files
+        chosen_files: list of Pdf objects representing chosen files
     """
     chosen_files = []
     for file in files:
@@ -83,7 +83,7 @@ def extract_pdf_text(chosen_files: list[Pdf]) -> None:
     Extracts text from the pdf and adds each line as an item to the text list of its object.
 
     Args:
-        chosen_files: list[Pdf] = List of pdf objects
+        chosen_files: List of pdf objects
     """
     laparams = LAParams(line_overlap=0.5, char_margin=100.0, line_margin=0.5, word_margin=0.1)
 
