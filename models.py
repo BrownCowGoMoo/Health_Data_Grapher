@@ -67,4 +67,3 @@ class PlotConfig:
     # Annotations
     value_label: bool = True
     value_label_offset: tuple[int, int] = (0,10)
-    
