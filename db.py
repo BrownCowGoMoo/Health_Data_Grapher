@@ -84,3 +84,14 @@ class DBManager:
 
         return shared_names
     
+    def select_values_for_name(self, name: str):
+        query = """
+        SELECT name, value, lower_range, upper_range, units, file_name, date 
+        FROM Reports
+        WHERE name=?
+        ORDER BY date
+        """
+
+        with self.session() as cursor:
+            cursor.execute(query, (name,))
+            print(cursor.fetchall())
