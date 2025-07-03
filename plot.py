@@ -27,7 +27,7 @@ class PlotItemsSelector:
 
             try:
                 ans = int(ans)
-                item_name = choises[ans]
+                item_name = choises[ans - 1]
             except (ValueError, IndexError):
                 print(f"{ans} is not a valid index.")
                 continue
