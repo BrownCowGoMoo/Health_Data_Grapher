@@ -69,6 +69,13 @@ class PlotValues(ResultInfo):
     file_name: str
     date: str
 
+    @property
+    def get_normal_range(self):
+        """ Gets the normal range """
+        if not self.upper_range or not self.lower_range:
+            return (0, 0)
+        return (self.lower_range, self.upper_range)
+    
 @dataclass
 class PlotConfig:
     """
@@ -78,6 +85,7 @@ class PlotConfig:
         normal_range_color: Color to display the normal range for a result (default = 'green')
         normal_range_alpha: Amount of transperency for normal_range (default 0.2)
         y_axis_padding: Amount of y-axis padding from highest and lowest value (default = 0)
+        min_always_zero: Boolean value, determines if the min value for the y axis is set to 0 (default = True)
         value_label: boolean value, dermines use of value labels (default = True)
         value_label_offset: Offset for the value label (default = (0, 10))
     """
@@ -91,6 +99,7 @@ class PlotConfig:
 
     # Axis config
     y_axis_padding: int = 10
+    min_always_zero: bool = True
 
     # Annotations
     value_label: bool = True
