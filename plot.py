@@ -33,10 +33,6 @@ class PlotItemsSelector:
                 continue
             break
         return item_name
-
-def sort_data_by_date(all_chose_records: list[ResultInfoSeries]):
-    sorted_records_date: list[ResultInfoSeries] = sorted(all_chose_records, key=lambda r: r.report_date)
-    return sorted_records_date
         
 
 
