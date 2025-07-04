@@ -84,7 +84,7 @@ class DBManager:
 
         return shared_names
     
-    def select_values_for_name(self, name: str) -> tuple[str, float, float, float, str, str, str]:
+    def select_values_for_name(self, name: str) -> tuple[str, str, float, float, float, str, str, str]:
         """
         Selects column information from the table at the given name.
 
