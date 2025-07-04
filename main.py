@@ -11,7 +11,9 @@ if TYPE_CHECKING:
 
 
 def main():
+    # Gets the list of Pdf objects
     files: list[Pdf] = scan_files()
+    
     chosen_files: list[Pdf] = get_files_to_include(files)
     extract_pdf_text(chosen_files)
     all_chosen_records: list[ResultInfoSeries] = parse_reports(chosen_files)
