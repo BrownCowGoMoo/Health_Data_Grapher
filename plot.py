@@ -16,8 +16,8 @@ class PlotValaueCalculator:
         normal_range = []
         for result in plot_values_list:
             values.append(result.value)
-            normal_range.extend([result.lower_range, result.upper_range])
-        
+            normal_range.extend(result.get_normal_range)
+
         min_y = min(*values, *normal_range) - config.y_axis_padding
         max_y = max(*values, *normal_range) + config.y_axis_padding
 
