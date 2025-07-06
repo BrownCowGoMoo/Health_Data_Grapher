@@ -1,10 +1,5 @@
-from __future__ import annotations
-from typing import TYPE_CHECKING
 import sqlite3
 from contextlib import contextmanager
-
-if TYPE_CHECKING:
-    from models import ResultInfoSeries, ResultInfo
 
 class DBManager:
     def __init__(self, db_path: str="Report.db", table_name: str = "Reports"):
@@ -14,7 +9,6 @@ class DBManager:
     @contextmanager
     def session(self):
         connection = sqlite3.connect(self.db_path)
-
         try:
             cursor = connection.cursor()
             yield cursor
@@ -27,81 +21,84 @@ class DBManager:
             connection.close()
 
     def create_tables(self):
-        
         with self.session() as cursor:
-            cursor.execute(f"DROP TABLE IF EXISTS Reports")
-            cursor.execute(f"""CREATE TABLE IF NOT EXISTS Reports (
-                            id INTEGER PRIMARY KEY,
-                            file_name TEXT NOT NULL,
-                            name TEXT NOT NULL,
-                            flag TEXT DEFAULT 'NULL',
-                            value REAL DEFAULT 'NULL',
-                            lower_range REAL DEFAULT 'NULL',
-                            upper_range REAL DEFAULT 'NULL',
-                            units TEXT DEFAULT 'NULL',
-                            date TEXT DEFAULT 'NULL')""")
-            
-    def insert_info(self, all_chosen_records: list[ResultInfoSeries]):
-        query = "INSERT INTO Reports (file_name, name, flag, value, lower_range, upper_range, units, date) VALUES (?,?,?,?,?,?,?,?)"
+            cursor.execute(f"DROP TABLE IF EXISTS {self.table_name}")
+            cursor.execute(f"""
+                CREATE TABLE IF NOT EXISTS {self.table_name} (
+                    id INTEGER PRIMARY KEY,
+                    file_name TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    flag TEXT DEFAULT 'NULL',
+                    value REAL DEFAULT 'NULL',
+                    lower_range REAL DEFAULT 'NULL',
+                    upper_range REAL DEFAULT 'NULL',
+                    units TEXT DEFAULT 'NULL',
+                    date TEXT DEFAULT 'NULL'
+                )
+            """)
+
+    def insert_info(self, all_series: list[dict]):
+        """
+        all_series: list of dicts with keys
+            'report_name': str,
+            'report_date': datetime or None,
+            'report_results': list of dicts each having
+                'name', 'flag', 'value', 'lower_range',
+                'upper_range', 'units'
+        """
+        query = (
+            f"INSERT INTO {self.table_name} "
+            "(file_name, name, flag, value, lower_range, upper_range, units, date) "
+            "VALUES (?,?,?,?,?,?,?,?)"
+        )
         params = []
-        for record in all_chosen_records:
-            file_name = record.report_name
-            date = record.report_date
-            for results in record.report_results:
+        for series in all_series:
+            fname = series["report_name"]
+            date_obj = series["report_date"]
+            date_str = date_obj.strftime("%Y-%m-%d %H:%M") if date_obj else ""
+            for result in series["report_results"]:
                 params.append((
-                    file_name,
-                    results.name,
-                    results.flag,
-                    results.value,
-                    results.lower_range,
-                    results.upper_range,
-                    results.units,
-                    date
+                    fname,
+                    result["name"],
+                    result["flag"],
+                    result["value"],
+                    result["lower_range"],
+                    result["upper_range"],
+                    result["units"],
+                    date_str
                 ))
+
         with self.session() as cursor:
             cursor.executemany(query, params)
 
     def select_shared_names(self) -> list[str]:
         """
         Select all names from Reports that are shared by each unique file_name.
-
-        Returns:
-            shared_names: A list of the shared names.
         """
-
-        query = """
-        SELECT name FROM Reports
-        GROUP BY name
-        HAVING COUNT(DISTINCT file_name) = (
-            SELECT COUNT(DISTINCT file_name)
-            FROM Reports
-        )
-        """            
-
+        query = f"""
+            SELECT name
+            FROM {self.table_name}
+            GROUP BY name
+            HAVING COUNT(DISTINCT file_name) = (
+                SELECT COUNT(DISTINCT file_name)
+                FROM {self.table_name}
+            )
+        """
         with self.session() as cursor:
             cursor.execute(query)
-            shared_names = [row[0] for row in cursor.fetchall()]
+            return [row[0] for row in cursor.fetchall()]
 
-        return shared_names
-    
-    def select_values_for_name(self, name: str) -> tuple[str, str, float, float, float, str, str, str]:
+    def select_values_for_name(self, name: str) -> list[tuple]:
         """
-        Selects column information from the table at the given name.
-
-        Args:
-            name: name of a name in the database.
-
-        Returns:
-            values: Selected values from data base at 'name'.
+        Returns list of tuples:
+            (name, flag, value, lower_range, upper_range, units, file_name, date)
         """
-        query = """
-        SELECT name, flag, value, lower_range, upper_range, units, file_name, date 
-        FROM Reports
-        WHERE name=?
-        ORDER BY date
+        query = f"""
+            SELECT name, flag, value, lower_range, upper_range, units, file_name, date
+            FROM {self.table_name}
+            WHERE name = ?
+            ORDER BY date
         """
-
         with self.session() as cursor:
             cursor.execute(query, (name,))
-            values = cursor.fetchall()
-        return values
+            return cursor.fetchall()
